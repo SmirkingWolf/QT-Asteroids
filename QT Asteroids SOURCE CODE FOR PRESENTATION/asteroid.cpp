@@ -1,0 +1,50 @@
+#include "asteroid.h"
+
+#include <QPainter>
+#include <qmath.h>
+
+Asteroid::Asteroid()
+{
+    qreal x = 0;
+    qreal y = 0;
+    setPos( x, y );
+    setRotation( 135 );
+}
+
+Asteroid::Asteroid(qreal x , qreal y)
+{
+   setPos(x, y);
+}
+
+//Updates the xCoor and yCoor values
+void Asteroid::updateAsteroidCords()
+{
+    xCoor =  qSin( 0.0174533 * rotation() );
+    yCoor =  -qCos( 0.0174533 * rotation() );
+    setPos( x() + xCoor, y() + yCoor);
+
+    if ( (this->pos().x() > m_Width) ){
+        this->setPos( (x() - m_Width) ,  y()  );
+    }
+    if( this->pos().x() < 0 ){
+        this->setPos(  (x() + m_Width),  y()       );
+    }
+    if(  (this->pos().y() > m_Height)  ){
+        this->setPos(  x(),  (y() - m_Height)       );
+    }
+    if(  (this->pos().y() < 0 )){
+        this->setPos(   x(),  (y() + m_Height)      );
+
+    }
+}
+
+void Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    /*
+    painter->setPen((QPen(Qt::red, 2)) );
+    painter->drawRect(-25,-25,35,35);
+    */
+    painter->setPen(QPen(Qt::yellow, 2));
+    painter->drawEllipse(QPointF(-7.5,-7.5), 14, 14);
+
+}
